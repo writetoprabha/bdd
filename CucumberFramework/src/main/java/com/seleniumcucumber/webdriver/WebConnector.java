@@ -3,6 +3,7 @@ package com.seleniumcucumber.webdriver;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -22,12 +23,17 @@ public class WebConnector {
         loadProperties();
         switch (runTestProperties.getProperty("browser")) {
             case "firefox":
-                System.setProperty("webdriver.gecko.driver", "/home/prabha/Downloads/geckodriver-v0.24.0-linux32/geckodriver");
+                System.setProperty("webdriver.gecko.driver", System.getProperty("user.dir") + "/drivers/geckodriver");
                 driver = new FirefoxDriver();
+                break;
+            case "chrome":
+                System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "/drivers/chromedriver");
+                driver = new ChromeDriver();
                 break;
             default:
                 System.out.println("Unable to open browser");
         }
+        driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
         wait = new WebDriverWait(driver, 10);
     }

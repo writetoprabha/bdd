@@ -1,0 +1,204 @@
+[
+  {
+    "line": 1,
+    "elements": [
+      {
+        "before": [
+          {
+            "result": {
+              "duration": 115843088,
+              "status": "passed"
+            },
+            "match": {
+              "location": "StepDefinitions.beforeFunction()"
+            }
+          }
+        ],
+        "line": 4,
+        "name": "Login to rediiff.com using user id and password",
+        "description": "",
+        "id": "login-to-rediff.com;login-to-rediiff.com-using-user-id-and-password",
+        "after": [
+          {
+            "result": {
+              "duration": 6253057689,
+              "status": "passed"
+            },
+            "match": {
+              "location": "GenericSteps.afterFunction()"
+            }
+          }
+        ],
+        "type": "scenario",
+        "keyword": "Scenario",
+        "steps": [
+          {
+            "result": {
+              "duration": 155448962,
+              "status": "passed"
+            },
+            "line": 5,
+            "name": "I open firefox",
+            "match": {
+              "arguments": [
+                {
+                  "val": "firefox",
+                  "offset": 7
+                }
+              ],
+              "location": "StepDefinitions.openBrowser(String)"
+            },
+            "keyword": "Given "
+          },
+          {
+            "result": {
+              "duration": 37877178719,
+              "status": "passed"
+            },
+            "line": 6,
+            "name": "I navigate to rediffHomePage",
+            "match": {
+              "arguments": [
+                {
+                  "val": "rediffHomePage",
+                  "offset": 14
+                }
+              ],
+              "location": "GenericSteps.navigateTo(String)"
+            },
+            "keyword": "And "
+          },
+          {
+            "result": {
+              "duration": 5323888669,
+              "status": "passed"
+            },
+            "line": 7,
+            "name": "I click on login",
+            "match": {
+              "arguments": [
+                {
+                  "val": "login",
+                  "offset": 11
+                }
+              ],
+              "location": "GenericSteps.clickOnElement(String)"
+            },
+            "keyword": "And "
+          },
+          {
+            "result": {
+              "duration": 3001764400,
+              "status": "passed"
+            },
+            "line": 8,
+            "name": "I wait for 3000 milliseconds",
+            "match": {
+              "arguments": [
+                {
+                  "val": "3000",
+                  "offset": 11
+                }
+              ],
+              "location": "GenericSteps.wait(int)"
+            },
+            "keyword": "And "
+          },
+          {
+            "result": {
+              "duration": 120100569,
+              "status": "passed"
+            },
+            "line": 9,
+            "name": "I enter writetoprabha in userId text field",
+            "match": {
+              "arguments": [
+                {
+                  "val": "writetoprabha",
+                  "offset": 8
+                },
+                {
+                  "val": "userId",
+                  "offset": 25
+                }
+              ],
+              "location": "GenericSteps.enterTextInTextField(String,String)"
+            },
+            "keyword": "And "
+          },
+          {
+            "result": {
+              "duration": 103362474,
+              "status": "passed"
+            },
+            "line": 10,
+            "name": "I enter password1 in password text field",
+            "match": {
+              "arguments": [
+                {
+                  "val": "password1",
+                  "offset": 8
+                },
+                {
+                  "val": "password",
+                  "offset": 21
+                }
+              ],
+              "location": "GenericSteps.enterTextInTextField(String,String)"
+            },
+            "keyword": "And "
+          },
+          {
+            "result": {
+              "duration": 2926545001,
+              "status": "passed"
+            },
+            "line": 11,
+            "name": "I click on go",
+            "match": {
+              "arguments": [
+                {
+                  "val": "go",
+                  "offset": 11
+                }
+              ],
+              "location": "GenericSteps.clickOnElement(String)"
+            },
+            "keyword": "And "
+          },
+          {
+            "result": {
+              "duration": 100385099,
+              "status": "passed"
+            },
+            "line": 12,
+            "name": "I verify that page contains text",
+            "match": {
+              "location": "GenericSteps.verifyPageContainstext(String\u003e)"
+            },
+            "rows": [
+              {
+                "cells": [
+                  "Temporary error occured[#5001], please try again."
+                ],
+                "line": 13
+              }
+            ],
+            "keyword": "And "
+          }
+        ],
+        "tags": [
+          {
+            "line": 3,
+            "name": "@Login"
+          }
+        ]
+      }
+    ],
+    "name": "Login to rediff.com",
+    "description": "",
+    "id": "login-to-rediff.com",
+    "keyword": "Feature",
+    "uri": "features/login.feature"
+  }
+]

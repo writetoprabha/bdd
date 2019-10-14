@@ -1,6 +1,13 @@
 package com.seleniumcucumber.webdriver;
 
+import com.aventstack.extentreports.ExtentReports;
+import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.Status;
+import com.seleniumcucumber.reports.ExtentManager;
+import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.By;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -8,16 +15,20 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Date;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
-
+import static org.assertj.core.api.Assertions.*;
 public class WebConnector {
     public WebDriver driver;
     public Properties projectProperties,
     runTestProperties;
     public WebDriverWait wait;
+    public ExtentReports reporter;
+    public ExtentTest scenarioLog;
 
     public WebConnector() throws IOException {
         loadProperties();
@@ -88,9 +99,13 @@ public class WebConnector {
         } else if(elementLocator.endsWith("~name")) {
             return getElementByName(elementLocator.replace("~name", ""));
         } else {
-            WebElement e;
-            wait.until(ExpectedConditions.visibilityOfElementLocated(By.id(elementLocator)));
-            e = driver.findElement(By.id(elementLocator));
+            WebElement e = null;
+            try{
+                wait.until(ExpectedConditions.visibilityOfElementLocated(By.id(elementLocator)));
+                e = driver.findElement(By.id(elementLocator));
+            } catch (Exception ex) {
+                reportFailure(ex.getMessage());
+            }
             return e;
         }
     }
@@ -101,7 +116,7 @@ public class WebConnector {
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(elementReference)));
             e = driver.findElement(By.cssSelector(elementReference));
         } catch (Exception ex) {
-            ex.printStackTrace();
+            reportFailure(ex.getMessage());
         }
         return e;
     }
@@ -112,7 +127,7 @@ public class WebConnector {
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.name(elementReference)));
             e = driver.findElement(By.name(elementReference));
         } catch (Exception ex) {
-            ex.printStackTrace();
+            reportFailure(ex.getMessage());
         }
         return e;
     }
@@ -123,13 +138,51 @@ public class WebConnector {
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(elementReference)));
             e = driver.findElement(By.xpath(elementReference));
         } catch (Exception ex) {
-            ex.printStackTrace();
+            reportFailure(ex.getMessage());
         }
         return e;
     }
 
     public void navigate(String siteName) {
         driver.get(projectProperties.getProperty(siteName));
+    }
+
+    //******************************Extent Reporting functions******************************************
+    public void initializeReports(String scenarioName){
+        reporter = ExtentManager.getInstance(System.getProperty("user.dir") + "/test_reports/");
+        scenarioLog = reporter.createTest(scenarioName);
+    }
+
+    public void infoLog(String logMessage){
+        scenarioLog.log(Status.INFO, logMessage);
+    }
+
+    public void reportFailure(String logMessage){
+        scenarioLog.log(Status.FAIL, logMessage);
+        takeScreenShot();
+        assertThat(false);
+    }
+
+    public void reportSuccess(String logMessage){
+        scenarioLog.log(Status.PASS, logMessage);
+    }
+
+    public void flushLogs(){
+        if(reporter != null) {
+            reporter.flush();
+        }
+    }
+
+    public void takeScreenShot(){
+        Date d = new Date();
+        String fileName = d.toString().replace(",", "_").replace(":", "_") + ".png";
+        File srcFile = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
+        try{
+            FileUtils.copyFile(srcFile, new File(ExtentManager.screenShotFolderPath + fileName));
+            scenarioLog.log(Status.FAIL, "ScreenShot=> " + scenarioLog.addScreenCaptureFromPath(ExtentManager.screenShotFolderPath + fileName));
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
 }

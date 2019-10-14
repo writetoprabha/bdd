@@ -20,11 +20,6 @@ public class StepDefinitions {
     SoftAssertions softAssert;
 
 
-    @Before
-    public void beforeFunction(){
-        System.out.println("***********************************Before Scenario****************************");
-        softAssert = new SoftAssertions();
-    }
 
 
 

@@ -20,10 +20,6 @@ public class StepDefinitions {
     SoftAssertions softAssert;
 
 
-
-
-
-
     @And("^I navigate afd to ([^\"]*) page$")
     public void iNavigateTo(String pageName){
         System.out.println("I navigate to " +pageName+ " page");

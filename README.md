@@ -7,6 +7,8 @@
 <li>extentreports - For reporting</li>
 <li>assertj-core - For Assertions</li>
 <li>commons-io - For File streaming - when generating  & when reading properties</li>
+<li>rest-assured - For API support</li>
+<li>json-simple - For parsing JSON response</li>
 
 <h4>ExtentManager.java:</h4> 
 Path: src/main/java/com/seleniumcucumber/reports
@@ -41,5 +43,5 @@ Path: src/test/java/com/seleniumcucumber/
 <h4>Future Enhancements</h4>
 <li>Use page object model - page factory to define the objects</li>
 <li>Add build.xml (Ant) file to implement Continuous Integration</li>
-<li>Add functions and step defenitions to support REST API validations</li>
+<li>Add functions and step defenitions to support database validations</li>
 <li>Collect all the run time properties from command prompt to run the framework</li>

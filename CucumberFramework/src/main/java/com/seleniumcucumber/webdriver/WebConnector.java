@@ -3,8 +3,19 @@ package com.seleniumcucumber.webdriver;
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.Status;
+import com.mongodb.util.JSON;
 import com.seleniumcucumber.reports.ExtentManager;
+import gherkin.deps.com.google.gson.JsonArray;
+import gherkin.deps.com.google.gson.JsonObject;
+import io.restassured.RestAssured;
+import io.restassured.http.Method;
+import io.restassured.response.Response;
+import io.restassured.specification.RequestSpecification;
 import org.apache.commons.io.FileUtils;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.openqa.selenium.By;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
@@ -14,10 +25,14 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.Reader;
 import java.util.Date;
+import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 import static org.assertj.core.api.Assertions.*;
@@ -29,6 +44,7 @@ public class WebConnector {
     public WebDriverWait wait;
     public ExtentReports reporter;
     public ExtentTest scenarioLog;
+    public Response response;
 
     public WebConnector() throws IOException {
         loadProperties();
@@ -172,6 +188,7 @@ public class WebConnector {
             reporter.flush();
         }
     }
+    //******************************End of Extent Reporting functions******************************************
 
     public void takeScreenShot(){
         Date d = new Date();
@@ -185,4 +202,32 @@ public class WebConnector {
         }
     }
 
+    public void invokeApiUsingGetMethod(String apiName, List<String> params) {
+        scenarioLog.log(Status.INFO, "Retrieving the URI of service " + apiName);
+        RestAssured.baseURI = projectProperties.getProperty(apiName);
+        scenarioLog.log(Status.INFO, "Set the baseURI as: " + projectProperties.getProperty(apiName));
+        RequestSpecification httpRequest = RestAssured.given();
+        try {
+            response = httpRequest.request(Method.GET, params.get(0));
+            scenarioLog.log(Status.INFO, "Response received with status code " + response.getStatusCode() + " and body "  + response.getBody().asString());
+        } catch(Exception e) {
+            scenarioLog.log(Status.ERROR, "Exception occurred: " + e.getStackTrace());
+        }
+    }
+
+    public void validateResponseParam(String param, String value) throws ParseException {
+        JSONParser parser = new JSONParser();
+        JSONObject jsonObj = (JSONObject) parser.parse(response.getBody().asString());
+
+        Assert.assertEquals(jsonObj.get(param), value);
+
+    }
+
+    public boolean validateResponseStatusCode(int statusCode) {
+        if(response.getStatusCode() == 200) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

@@ -12,15 +12,15 @@ Feature:  Beginners Guide page
     And I verify that chapter8 link exists
     And I add 3 adults
     And I verify that country dropdown has options
-    |INDIA|
-    |JAPAN|
-    |USA  |
-    |SRILANKA|
-    |PAKISTAN|
+      |INDIA|
+      |JAPAN|
+      |USA  |
+      |SRILANKA|
+      |PAKISTAN|
     And I have 3 adults
-    |Adult1|Adult2|Adult3|
-    |A     |B     |C     |
-    |29    |31    |32    |
+      |Adult1|Adult2|Adult3|
+      |A     |B     |C     |
+      |29    |31    |32    |
     #And I enter text "abcd" in q text field
   Examples:
     |pageName|

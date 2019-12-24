@@ -6,8 +6,8 @@ Feature: Api validations
       |/<city>|
     And I verify that response has status code 200
     And I verify that "City" parameter in response contains "<city>"
-    Examples:
-    |city|
-    |Hyderabad|
-    |Chennai  |
-    |Delhi    |
+  Examples:
+  |city|
+  |Hyderabad|
+  |Chennai  |
+  |Delhi    |

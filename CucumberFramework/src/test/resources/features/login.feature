@@ -10,7 +10,7 @@ Feature: Login to rediff.com
     And I enter password1 in password text field
     And I click on go
     And I verify that page contains text
-    |Temporary error occured[#5001], please try again.|
+      |Temporary error occured[#5001], please try again.|
 
 
   @Login
